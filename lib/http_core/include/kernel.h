@@ -8,6 +8,13 @@
 #ifndef HTTP_KERNEL_H
 #define HTTP_KERNEL_H
 
+#define PANIC(fmt, ...) kernel_panic(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOG_TRACE(fmt, ...) kernel_log(TRACE_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOG_DEBUG(fmt, ...) kernel_log(DEBUG_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOG_INFO(fmt, ...) kernel_log(INFO_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOG_WARN(fmt, ...) kernel_log(WARN_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+#define LOG_ERROR(fmt, ...) kernel_log(ERROR_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -45,21 +52,6 @@ void kernel_panic(const char* file_name, short line_number, const char* fmt, ...
 
 #ifdef __cplusplus
 }
-#define PANIC(fmt, ...) kernel_panic(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
-#define LOG_TRACE(fmt, ...) kernel_log(ApplicationLogLevel::TRACE_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
-#define LOG_DEBUG(fmt, ...) kernel_log(ApplicationLogLevel::DEBUG_LEVEL, __FILE__), __LINE__, fmt, ##__VA_ARGS__)
-#define LOG_INFO(fmt, ...) kernel_log(ApplicationLogLevel::INFO_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
-#define LOG_WARN(fmt, ...) kernel_log(ApplicationLogLevel::WARN_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
-#define LOG_ERROR(fmt, ...) kernel_log(ApplicationLogLevel::ERROR_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
-
-#else
-#define PANIC(fmt, ...) kernel_panic(__FILE__, __LINE__, fmt, ##__VA_ARGS__)
-#define LOG_TRACE(fmt, ...) kernel_log(TRACE_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
-#define LOG_DEBUG(fmt, ...) kernel_log(DEBUG_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
-#define LOG_INFO(fmt, ...) kernel_log(INFO_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
-#define LOG_WARN(fmt, ...) kernel_log(WARN_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
-#define LOG_ERROR(fmt, ...) kernel_log(ERROR_LEVEL, __FILE__, __LINE__, fmt, ##__VA_ARGS__)
 #endif
-
 
 #endif //HTTP_KERNEL_H
