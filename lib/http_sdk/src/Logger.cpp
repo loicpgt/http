@@ -6,6 +6,15 @@
 #include <vector>
 #include <sstream>
 
+void kernel_log(int level, const char* file_name, short line_number, const char* fmt, ...) {
+    http::Logger::write_log(static_cast<ApplicationLogLevel>(level), file_name, line_number, fmt);
+}
+
+void kernel_panic(const char* file_name, short line_number, const char* fmt, ...) {
+    http::Logger::write_log(ApplicationLogLevel::PANIC_LEVEL, file_name, line_number, fmt);
+    exit(EXIT_FAILURE);
+}
+
 std::string clean_file_name(const char* file_name) {
     std::vector<std::string> tokens;
     std::stringstream ss(file_name);

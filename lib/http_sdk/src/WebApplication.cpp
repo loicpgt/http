@@ -3,15 +3,6 @@
 
 #include <memory>
 
-void kernel_log(int level, const char* file_name, short line_number, const char* fmt, ...) {
-    http::Logger::write_log(static_cast<ApplicationLogLevel>(level), file_name, line_number, fmt);
-}
-
-void kernel_panic(const char* file_name, short line_number, const char* fmt, ...) {
-    http::Logger::write_log(ApplicationLogLevel::PANIC_LEVEL, file_name, line_number, fmt);
-    exit(EXIT_FAILURE);
-}
-
 namespace http {
     WebApplication::WebApplication(const int port) : m_port(port) {
     }
