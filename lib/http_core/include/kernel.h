@@ -39,7 +39,7 @@ enum ApplicationLogLevel {
  * @param fmt The log format
  * @param ... The log arguments
  */
-void kernel_log(int level, const char* file_name, short line_number, const char* fmt, ...);
+void kernel_log(int level, const char* file_name, int line_number, const char* fmt, ...);
 
 /**
  * @brief Represents an unhandled error
@@ -48,7 +48,7 @@ void kernel_log(int level, const char* file_name, short line_number, const char*
  * @param fmt The error message format
  * @param ... The error message arguments
  */
-void kernel_panic(const char* file_name, short line_number, const char* fmt, ...);
+void kernel_panic(const char* file_name, int line_number, const char* fmt, ...);
 
 #ifdef __cplusplus
 }
