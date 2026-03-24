@@ -7,9 +7,14 @@
 #define IS_SOCKET_REUSABLE 1
 
 #include "socket.h"
+
+#include <stdio.h>
+
 #include "kernel.h"
 
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 #include <netinet/in.h>
 
 typedef struct network_socket {
@@ -18,7 +23,17 @@ typedef struct network_socket {
     socklen_t address_len;
 } network_socket_t;
 
-network_socket_t* create_network_socket(int port) {
+typedef struct network_message {
+    int socket_fd;
+    uint8_t used;
+} network_message_t;
+
+typedef struct network_message_queue {
+    size_t size;
+    network_message_t* memory_region;
+} network_message_queue_t;
+
+network_socket_t* bind_network_socket(int port) {
     const int opt = IS_SOCKET_REUSABLE;
     network_socket_t *network_socket = malloc(sizeof(network_socket_t));
 
@@ -42,4 +57,90 @@ network_socket_t* create_network_socket(int port) {
     }
 
     return network_socket;
+}
+
+void close_network_socket(network_socket_t *socket) {
+    close(socket->socket_fd);
+    socket->socket_fd = 0;
+    free(socket);
+}
+
+void listen_on_network_socket(network_socket_t *socket, network_message_queue_t *queue) {
+    if (listen(socket->socket_fd, queue->size) < 0) {
+        PANIC("INTERNAL_ERROR", "Failed to listen on socket.");
+    }
+
+    int tmp_socket;
+    if ((tmp_socket = accept(socket->socket_fd, (struct sockaddr*)&socket->address, &socket->address_len)) < 0) {
+        PANIC("INTERNAL_ERROR", "Failed to accept connection from socket.");
+    }
+
+    network_message_t* msg = nullptr;
+    for (int i = 0; i < queue->size; i++) {
+        msg = &queue->memory_region[i * sizeof(network_message_t)];
+        if (msg->used == 0 || msg->socket_fd == 0) {
+            break;
+        }
+    }
+
+    if (msg == nullptr) {
+        PANIC("INTERNAL_ERROR", "No available message in the queue.");
+    }
+
+    char valread[1024];
+    read(tmp_socket, valread, 1024 - 1);
+    printf("%s", valread);
+    msg->socket_fd = tmp_socket;
+}
+
+network_message_queue_t* init_message_queue(const size_t queue_size) {
+    network_message_queue_t *queue = malloc(sizeof(network_message_queue_t));
+    queue->size = queue_size;
+
+    queue->memory_region = calloc(queue_size, sizeof(network_message_t));
+    if (queue->memory_region == nullptr) {
+        PANIC("INTERNAL_ERROR", "Failed to allocate memory for queue.");
+    }
+
+    network_message_t *msg = nullptr;
+    for (int i = 0; i < queue_size; i++) {
+        msg = &queue->memory_region[i * sizeof(network_message_t)];
+        msg->used = 0;
+        msg->socket_fd = 0;
+    }
+
+    return queue;
+}
+
+void clear_message_queue(network_message_queue_t *queue) {
+    free(queue->memory_region);
+    free(queue);
+}
+
+network_message_t * get_next_message(const network_message_queue_t *queue) {
+    for (int i = 0; i < queue->size; i++) {
+        network_message_t* msg = &queue->memory_region[i * sizeof(network_message_t)];
+        if (msg->used) {
+            continue;
+        }
+
+        msg->used = 1;
+        return msg;
+    }
+
+    return nullptr;
+}
+
+void respond_to(network_message_t *message, const char* content) {
+    if (message->socket_fd < 0) {
+        PANIC("INTERNAL_ERROR", "Cannot send message to an empty socket.");
+    }
+
+    if (send(message->socket_fd, content, strlen(content), 0) < -1) {
+        PANIC("INTERNAL_ERROR", "Failed to send message to an empty socket.");
+    }
+
+    close(message->socket_fd);
+    message->used = 0;
+    message->socket_fd = 0;
 }
