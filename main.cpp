@@ -1,9 +1,9 @@
-#include "Application.h"
+#include "WebApplication.h"
 
 int main() {
-    std::unique_ptr<http::IApplication> app = http::create(8080);
-    app->run();
+    http::WebApplicationSpecification application_specification;
 
-    app.reset();
+    const auto application = std::make_unique<http::WebApplication>(application_specification);
+    application->run();
     return 0;
 }

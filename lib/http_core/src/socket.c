@@ -75,7 +75,7 @@ void listen_on_network_socket(network_socket_t *socket, network_message_queue_t 
         PANIC("INTERNAL_ERROR", "Failed to accept connection from socket.");
     }
 
-    network_message_t* msg = nullptr;
+    network_message_t* msg = NULL;
     for (int i = 0; i < queue->size; i++) {
         msg = &queue->memory_region[i * sizeof(network_message_t)];
         if (msg->used == 0 || msg->socket_fd == 0) {
@@ -83,7 +83,7 @@ void listen_on_network_socket(network_socket_t *socket, network_message_queue_t 
         }
     }
 
-    if (msg == nullptr) {
+    if (msg == NULL) {
         PANIC("INTERNAL_ERROR", "No available message in the queue.");
     }
 
@@ -98,11 +98,11 @@ network_message_queue_t* init_message_queue(const size_t queue_size) {
     queue->size = queue_size;
 
     queue->memory_region = calloc(queue_size, sizeof(network_message_t));
-    if (queue->memory_region == nullptr) {
+    if (queue->memory_region == NULL) {
         PANIC("INTERNAL_ERROR", "Failed to allocate memory for queue.");
     }
 
-    network_message_t *msg = nullptr;
+    network_message_t *msg = NULL;
     for (int i = 0; i < queue_size; i++) {
         msg = &queue->memory_region[i * sizeof(network_message_t)];
         msg->used = 0;
@@ -128,7 +128,7 @@ network_message_t * get_next_message(const network_message_queue_t *queue) {
         return msg;
     }
 
-    return nullptr;
+    return NULL;
 }
 
 void respond_to(network_message_t *message, const char* content) {

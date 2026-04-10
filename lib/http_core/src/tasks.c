@@ -9,7 +9,7 @@ void task_pool_init(task_pool_t* pool, uint8_t pool_size, size_t task_size) {
     pool->task_size = task_size;
     pool->memory_region = calloc(pool_size, task_size);
 
-    if (pool->memory_region == nullptr) {
+    if (pool->memory_region == NULL) {
         PANIC("Failed to initialize a task_pool.\n\nTask size: %zu bytes\n", task_size);
     }
 
@@ -43,7 +43,7 @@ task_t* task_acquire(task_pool_t* pool) {
         cursor++;
     }
 
-    return nullptr;
+    return NULL;
 }
 
 void task_release(task_t* task) {

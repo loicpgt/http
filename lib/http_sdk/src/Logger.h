@@ -1,5 +1,4 @@
-#ifndef HTTP_LOGGER_H
-#define HTTP_LOGGER_H
+#pragma once
 
 #include <cstdarg>
 
@@ -10,8 +9,7 @@
 namespace http {
     class Logger final {
     public:
-        static void write_log(ApplicationLogLevel level, const char *file_name, int line_number, const char *fmt, va_list args);
+        static void write_log(ApplicationLogLevel level, const char *file_name, int line_number, const char *fmt,
+                              va_list args);
     };
 }
-
-#endif //HTTP_LOGGER_H
