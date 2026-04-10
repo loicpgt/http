@@ -6,12 +6,10 @@
 
 #define IS_SOCKET_REUSABLE 1
 
-#include "socket.h"
+#include "core/net/socket.h"
+#include "core/kernel.h"
 
 #include <stdio.h>
-
-#include "kernel.h"
-
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>

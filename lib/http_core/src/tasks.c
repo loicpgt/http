@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-#include "kernel.h"
-#include "task.h"
+#include "core/kernel.h"
+#include "core/sys/task.h"
 
 void task_pool_init(task_pool_t* pool, uint8_t pool_size, size_t task_size) {
     pool->pool_size = pool_size;

@@ -1,9 +1,3 @@
-/*
- * [2026-02-20] File created by loicpgt
- *
- *  Comments:
- */
-
 #ifndef HTTP_SOCKET_H
 #define HTTP_SOCKET_H
 #include <stddef.h>

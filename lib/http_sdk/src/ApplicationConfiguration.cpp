@@ -2,7 +2,7 @@
 
 #include <ranges>
 
-#include "kernel.h"
+#include "core/kernel.h"
 
 namespace http {
     http::ApplicationConfiguration::ApplicationConfiguration()

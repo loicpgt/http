@@ -1,7 +1,3 @@
-//
-// Created by loicp on 3/10/26.
-//
-
 #ifndef HTTP_TASK_H
 #define HTTP_TASK_H
 #include <stdint.h>

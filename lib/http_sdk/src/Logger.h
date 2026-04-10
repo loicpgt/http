@@ -2,7 +2,7 @@
 
 #include <cstdarg>
 
-#include "kernel.h"
+#include "core/kernel.h"
 
 #define LOG_LEVEL 0
 

@@ -1,7 +1,7 @@
-#include "WebApplication.h"
+#include "http/WebApplication.h"
 
 #include "ApplicationConfiguration.h"
-#include "socket.h"
+#include "core/net/socket.h"
 
 namespace http {
     WebApplication::WebApplication(const WebApplicationSpecification &specification) {

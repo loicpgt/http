@@ -1,10 +1,3 @@
-/*
- * [2026-02-20] File created by loicpgt
- *
- *  Comments:
- *  [2025-02-20] - loicpgt: Using macros to get the file name and the line where the log is called from
- */
-
 #ifndef HTTP_KERNEL_H
 #define HTTP_KERNEL_H
 
