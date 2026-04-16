@@ -1,6 +1,7 @@
 #include "http/WebApplication.h"
 
 #include "ApplicationConfiguration.h"
+#include "core/http.h"
 #include "core/net/socket.h"
 
 namespace http {
@@ -19,7 +20,8 @@ namespace http {
 
         listen_on_network_socket(socket, queue);
         network_message_t *message = get_next_message(queue);
-
+        http_context_t* context = init_context(message);
+        free(context);
         respond_to(message, "HTTP/1.1 200 OK\nContent-Type: text/html\n\n<html><body>Hello World!</body></html>");
     }
 } // http
