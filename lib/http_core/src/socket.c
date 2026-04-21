@@ -133,7 +133,7 @@ void respond_to(network_message_t *message, const char* content) {
         PANIC("INTERNAL_ERROR", "Cannot send message to an empty socket.");
     }
 
-    if (send(message->socket_fd, content, strlen(content), 0) < -1) {
+    if (send(message->socket_fd, content, strlen(content), 0) < 0) {
         PANIC("INTERNAL_ERROR", "Failed to send message to an empty socket.");
     }
 
