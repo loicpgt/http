@@ -45,6 +45,8 @@ network_message_t* get_next_message(const network_message_queue_t* queue);
  */
 void respond_to(network_message_t* message, const char* content);
 
+char* get_msg_content(const network_message_t* msg);
+
 #ifdef __cplusplus
     }
 #endif

@@ -46,27 +46,27 @@ void http::Logger::write_log(const ApplicationLogLevel level, const char *file_n
 
     switch (level) {
         case ApplicationLogLevel::TRACE_LEVEL:
-            std::printf("[\x1b[34mTRACE\x1b[0m] %s:%d \n\t %s\n\n",
+            std::printf("[\x1b[34mTRACE\x1b[0m] %s:%d\n\t %s\n",
                         cleaned_file_name.c_str(), line_number, message);
             break;
         case ApplicationLogLevel::INFO_LEVEL:
-            std::printf("[\x1b[32mINFO\x1b[0m] %s:%d \n\t %s\n\n",
+            std::printf("[\x1b[32mINFO\x1b[0m] %s:%d\n\t %s\n",
                         cleaned_file_name.c_str(), line_number, message);
             break;
         case ApplicationLogLevel::DEBUG_LEVEL:
-            std::printf("[\x1b[36mDEBUG\x1b[0m] %s:%d \n\t %s\n\n",
+            std::printf("[\x1b[36mDEBUG\x1b[0m] %s:%d\n\t %s\n",
                         cleaned_file_name.c_str(), line_number, message);
             break;
         case ApplicationLogLevel::WARNING_LEVEL:
-            std::printf("[\x1b[33mWARNING\x1b[0m] %s:%d \n\t %s\n\n",
+            std::printf("[\x1b[33mWARNING\x1b[0m] %s:%d\n\t %s\n",
                         cleaned_file_name.c_str(), line_number, message);
             break;
         case ApplicationLogLevel::ERROR_LEVEL:
-            std::fprintf(stderr, "[\x1b[31mERROR\x1b[0m] %s:%d \n\t %s\n\n",
+            std::fprintf(stderr, "[\x1b[31mERROR\x1b[0m] %s:%d\n\t %s\n",
                          cleaned_file_name.c_str(), line_number, message);
             break;
         case ApplicationLogLevel::PANIC_LEVEL:
-            std::fprintf(stderr, "[\x1b[31mPANIC\x1b[0m] %s:%d \n\t %s\n\n",
+            std::fprintf(stderr, "[\x1b[31mPANIC\x1b[0m] %s:%d\n\t %s\n",
                          cleaned_file_name.c_str(), line_number, message);
             break;
 

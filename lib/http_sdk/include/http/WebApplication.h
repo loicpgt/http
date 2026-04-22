@@ -6,6 +6,7 @@
 namespace http {
     struct WebApplicationSpecification {
         int port = 8080;
+        std::string www_root = "/www";
     };
 
     class WebApplication final {

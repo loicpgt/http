@@ -73,10 +73,12 @@ void listen_on_network_socket(network_socket_t *socket, network_message_queue_t 
         PANIC("INTERNAL_ERROR", "Failed to accept connection from socket.");
     }
 
+    LOG_INFO("Accepted connection...");
     network_message_t* msg = NULL;
     for (int i = 0; i < queue->size; i++) {
         msg = &queue->memory_region[i * sizeof(network_message_t)];
         if (msg->used == 0 || msg->socket_fd == 0) {
+            LOG_TRACE("New connection assigned to msg if %d", i);
             break;
         }
     }
@@ -85,9 +87,6 @@ void listen_on_network_socket(network_socket_t *socket, network_message_queue_t 
         PANIC("INTERNAL_ERROR", "No available message in the queue.");
     }
 
-    char valread[1024];
-    read(tmp_socket, valread, 1024 - 1);
-    printf("%s", valread);
     msg->socket_fd = tmp_socket;
 }
 
@@ -134,11 +133,29 @@ void respond_to(network_message_t *message, const char* content) {
         PANIC("INTERNAL_ERROR", "Cannot send message to an empty socket.");
     }
 
-    if (send(message->socket_fd, content, strlen(content), 0) < -1) {
+    if (send(message->socket_fd, content, strlen(content), 0) < 0) {
         PANIC("INTERNAL_ERROR", "Failed to send message to an empty socket.");
     }
 
     close(message->socket_fd);
     message->used = 0;
     message->socket_fd = 0;
+}
+
+char* get_msg_content(const network_message_t *msg) {
+    char* content = malloc(sizeof(char) * 1024);
+    if (!content) return NULL;
+
+    memset(content, 0, 1024);
+
+    const ssize_t bytes_read = read(msg->socket_fd, content, 1023);
+
+    if (bytes_read < 0) {
+        free(content);
+        return NULL;
+    }
+
+    content[bytes_read] = '\0';
+
+    return content;
 }
